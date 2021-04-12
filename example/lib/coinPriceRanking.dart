@@ -42,10 +42,7 @@ class _CoinPriceRankingPageState extends State<CoinPriceRankingPage> {
   @override
   void initState() {
     super.initState();
-    getExchangeData();
-    timer = Timer.periodic(Duration(seconds: 5), (timer) {
-      getExchangeData();
-    });
+    //your code
   }
 
   @override
@@ -54,104 +51,8 @@ class _CoinPriceRankingPageState extends State<CoinPriceRankingPage> {
     super.dispose();
   }
 
-  List<Widget> coinPriceRankingUI({BuildContext context}) {
-    List<Widget> widgetList = List<Widget>();
-    if (coinPriceList?.coinPriceList != null) {
-      for (var i = 0; i < coinPriceList.coinPriceList.length; i++) {
-        CoinPrice coinPrice = coinPriceList.coinPriceList[i];
-        widgetList.add(
-          Row(children: <Widget>[
-            Expanded(
-                flex: 5,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: <Widget>[
-                        Container(
-                          height: 40,
-                          width: 20,
-                          child: CachedNetworkImage(
-                            imageUrl: coinPrice.image,
-                            errorWidget: (context, url, error) =>
-                                Icon(Icons.error),
-                          ),
-                        ),
-                       Expanded(child:Padding(
-                          padding: EdgeInsets.only(left: 5),
-                          child: Text(coinPrice.name),
-                        )),
-                      ],
-                    ),
-                    Text("Volume \$ " + coinPrice.totalVolume.toString())
-                  ],
-                )),
-            Expanded(
-                flex: 3,
-                child: AnimatedOpacity(
-                    opacity: visible ? 1.0 : 0.0,
-                    duration: Duration(milliseconds: 500),
-                    child: Padding(
-                      padding: EdgeInsets.only(right: 10),
-                      child: Text("\$ " + coinPrice.currentPrice.toStringAsFixed(3),
-                          style: FXUI.normalTextStyle.copyWith(fontSize: 14),
-                          textAlign: TextAlign.right),
-                    ))),
-            Expanded(
-                flex: 2,
-                child: FittedBox(
-                    fit: BoxFit.contain,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: AnimatedOpacity(
-                        opacity: visible ? 1.0 : 0.0,
-                        duration: Duration(milliseconds: 300),
-                        child: Row(
-                          children: [
-                            SizedBox(
-                                width: 11,
-                                height: 9,
-                                child: Image.asset(
-                                    coinPrice.priceChangePercentage24h
-                                            .toStringAsFixed(2)
-                                            .contains("-")
-                                        ? 'images/priceDownIcon.png'
-                                        : 'images/priceUpIcon.png')),
-                            Padding(
-                              padding: EdgeInsets.only(left: 5),
-                              child: Text(
-                                  (coinPrice.priceChangePercentage24h
-                                          .toStringAsFixed(2) +
-                                      "%"),
-                                  style: FXUI.normalTextStyle.copyWith(
-                                      color: coinPrice.priceChangePercentage24h
-                                              .toStringAsFixed(2)
-                                              .contains("-")
-                                          ? Colors.red
-                                          : Colors.green,
-                                      fontSize: 15)),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ))),
-          ]),
-        );
-        widgetList.add(Divider());
-      }
-    } else {
-      widgetList.add(Container(
-          height: size.blockSizeVertical * 70,
-          child: Center(child: CircularProgressIndicator())));
-    }
-    return widgetList;
-  }
-
-
   @override
   Widget build(BuildContext context) {
-
-
 
     SizeConfig(context: context);
     return Scaffold(
@@ -180,7 +81,7 @@ class _CoinPriceRankingPageState extends State<CoinPriceRankingPage> {
               Padding(
                 padding: const EdgeInsets.all(15),
                 child:Column(
-                      children: coinPriceRankingUI()
+                 //// your code
                   )),
             ],
           )
