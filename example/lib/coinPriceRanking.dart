@@ -157,7 +157,7 @@ class _CoinPriceRankingPageState extends State<CoinPriceRankingPage> {
 
     SizeConfig(context: context);
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.white,
       body: Padding(
         padding: EdgeInsets.only(top: 0, bottom: 30),
         child: SafeArea(
@@ -166,7 +166,6 @@ class _CoinPriceRankingPageState extends State<CoinPriceRankingPage> {
             children: [
               Image.asset(
                 "images/banner.png",
-                package: 'assignment_example',
                 fit: BoxFit.contain,
               ),
           new Stack(
