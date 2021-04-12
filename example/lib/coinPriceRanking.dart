@@ -15,10 +15,8 @@ class CoinPriceRankingPage extends StatefulWidget {
 
 class _CoinPriceRankingPageState extends State<CoinPriceRankingPage> {
   CoinPriceList coinPriceList;
-  Color greyTextColor = Color(0xffB4B4B5);
   Timer timer;
   bool visible = true;
-  int currentSelectButton = 0;
 
   Future<CoinPriceList> getExchangeData() async {
     /// getTopErc20CoinPrice
