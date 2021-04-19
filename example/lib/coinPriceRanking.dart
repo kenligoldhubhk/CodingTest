@@ -83,10 +83,52 @@ class _CoinPriceRankingPageState extends State<CoinPriceRankingPage> {
                         )),
                       ],
                     ),
-                    Text("Volume \$ " + coinPrice.totalVolume.toString())
+                    Text("Volume \$ " + coinPrice.totalVolume.toString()),
+
                   ],
                 )),
             //your code
+
+            Row(
+              children: [
+                Text("\$"+coinPrice.currentPrice.toStringAsFixed(3),style:TextStyle(fontWeight: FontWeight.bold,fontSize:16)),
+              ],
+            ),
+            SizedBox(width:30),
+            coinPrice.athChangePercentage>0?
+            Row(
+              children: [
+                Container(
+                  height: 15,
+                  width: 20,
+                  child: Image(
+                    image: AssetImage('images/priceUpIcon.png'),
+                  ),
+                ),
+                Text(coinPrice.athChangePercentage.abs().toStringAsFixed(2) +"%"
+                ,style: TextStyle(color:Colors.green),),
+              ],
+            ):
+            AnimatedOpacity(
+              opacity: 1.0,
+              duration: Duration(milliseconds: 500),
+              child: Row(
+
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 12,
+                    width: 12,
+                    child: Image(
+                      image: AssetImage('images/priceDownIcon.png'),
+                    ),
+                  ),
+                  SizedBox(width:2),
+                  Text(coinPrice.athChangePercentage.toStringAsFixed(2) +"%"
+                    ,style: TextStyle(color:Colors.red),),
+                ],
+              ),
+            )
           ]),
         );
         widgetList.add(Divider());
