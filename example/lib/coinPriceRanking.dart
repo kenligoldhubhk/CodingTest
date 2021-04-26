@@ -20,10 +20,10 @@ class _CoinPriceRankingPageState extends State<CoinPriceRankingPage> {
 
   Future<CoinPriceList> getExchangeData() async {
     /// getTopErc20CoinPrice
-      var result = await apiHandler.get(
-          "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=tether%2Cchainlink%2Cbinance-usd%2Cusd-coin%2Cyearn-finance%2Cdai%2Comisego%2Cbinancecoin%2Cuniswap%2Cvechain%2Caave%2Chuobi-token%2Csushi%2Ctrue-usd%2Ccdai%2Cswipe%2Cbasic-attention-token%2Cusdk%2Cwrapped-bitcoin%2Czilliqa%2Chavven%2Cokb%2Cband-protocol%2Cmaker%2Chusd%2C0x%2Cpaxos-standard%2Ccompound-ether%2Creserve-rights-token%2Cbalancer&order=market_cap_desc&per_page=100&page=1&sparkline=false");
-      // Map<String, dynamic> resultData = jsonDecode(result);
-      CoinPriceList coinPriceListData = CoinPriceList.fromJson(result);
+    var result = await apiHandler.get(
+        "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=tether%2Cchainlink%2Cbinance-usd%2Cusd-coin%2Cyearn-finance%2Cdai%2Comisego%2Cbinancecoin%2Cuniswap%2Cvechain%2Caave%2Chuobi-token%2Csushi%2Ctrue-usd%2Ccdai%2Cswipe%2Cbasic-attention-token%2Cusdk%2Cwrapped-bitcoin%2Czilliqa%2Chavven%2Cokb%2Cband-protocol%2Cmaker%2Chusd%2C0x%2Cpaxos-standard%2Ccompound-ether%2Creserve-rights-token%2Cbalancer&order=market_cap_desc&per_page=100&page=1&sparkline=false");
+    // Map<String, dynamic> resultData = jsonDecode(result);
+    CoinPriceList coinPriceListData = CoinPriceList.fromJson(result);
 
     if (this.mounted) {
       setState(() {
@@ -77,58 +77,71 @@ class _CoinPriceRankingPageState extends State<CoinPriceRankingPage> {
                                 Icon(Icons.error),
                           ),
                         ),
-                       Expanded(child:Padding(
+                        Expanded(
+                            child: Padding(
                           padding: EdgeInsets.only(left: 5),
                           child: Text(coinPrice.name),
                         )),
                       ],
                     ),
                     Text("Volume \$ " + coinPrice.totalVolume.toString()),
-
                   ],
                 )),
             //your code
 
             Row(
               children: [
-                Text("\$"+coinPrice.currentPrice.toStringAsFixed(3),style:TextStyle(fontWeight: FontWeight.bold,fontSize:16)),
+                Text("\$ " + coinPrice.currentPrice.toStringAsFixed(3),
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
               ],
             ),
-            SizedBox(width:30),
-            coinPrice.athChangePercentage>0?
-            Row(
-              children: [
-                Container(
-                  height: 15,
-                  width: 20,
-                  child: Image(
-                    image: AssetImage('images/priceUpIcon.png'),
-                  ),
-                ),
-                Text(coinPrice.athChangePercentage.abs().toStringAsFixed(2) +"%"
-                ,style: TextStyle(color:Colors.green),),
-              ],
-            ):
-            AnimatedOpacity(
-              opacity: 1.0,
-              duration: Duration(milliseconds: 500),
-              child: Row(
-
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    height: 12,
-                    width: 12,
-                    child: Image(
-                      image: AssetImage('images/priceDownIcon.png'),
+            SizedBox(width: 30),
+            coinPrice.athChangePercentage > 0
+                ? AnimatedOpacity(
+                    opacity: visible ? 1.0 : 0.0,
+                    duration: Duration(milliseconds: 300),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          height: 14,
+                          width: 14,
+                          child: Image(
+                            image: AssetImage('images/priceUpIcon.png'),
+                          ),
+                        ),
+                        SizedBox(width: 4),
+                        Text(
+                          coinPrice.athChangePercentage.toStringAsFixed(2) +
+                              "%",
+                          style: TextStyle(color: Colors.green, fontSize: 16),
+                        ),
+                      ],
                     ),
-                  ),
-                  SizedBox(width:2),
-                  Text(coinPrice.athChangePercentage.toStringAsFixed(2) +"%"
-                    ,style: TextStyle(color:Colors.red),),
-                ],
-              ),
-            )
+                  )
+                : AnimatedOpacity(
+                    opacity: visible ? 1.0 : 0.0,
+                    duration: Duration(milliseconds: 300),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          height: 14,
+                          width: 14,
+                          child: Image(
+                            image: AssetImage('images/priceDownIcon.png'),
+                          ),
+                        ),
+                        SizedBox(width: 4),
+                        Text(
+                          coinPrice.athChangePercentage.toStringAsFixed(2) +
+                              "%",
+                          style: TextStyle(color: Colors.red, fontSize: 16),
+                        ),
+                      ],
+                    ),
+                  )
           ]),
         );
         widgetList.add(Divider());
@@ -141,12 +154,8 @@ class _CoinPriceRankingPageState extends State<CoinPriceRankingPage> {
     return widgetList;
   }
 
-
   @override
   Widget build(BuildContext context) {
-
-
-
     SizeConfig(context: context);
     return Scaffold(
       backgroundColor: Colors.white,
@@ -160,24 +169,24 @@ class _CoinPriceRankingPageState extends State<CoinPriceRankingPage> {
                 "images/banner.png",
                 fit: BoxFit.contain,
               ),
-          new Stack(
-            children: <Widget>[ Container(
-                  width: size.blockSizeHorizontal * 100,
-                  height: 400,
-                  decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    image: DecorationImage(
-                      image: AssetImage("images/coinRankingBackGroundImage.png"),
-                      fit: BoxFit.contain,
-                    ),
-                  )),
-              Padding(
-                padding: const EdgeInsets.all(15),
-                child:Column(
-                      children: coinPriceRankingUI()
-                  )),
-            ],
-          )
+              new Stack(
+                children: <Widget>[
+                  Container(
+                      width: size.blockSizeHorizontal * 100,
+                      height: 400,
+                      decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        image: DecorationImage(
+                          image: AssetImage(
+                              "images/coinRankingBackGroundImage.png"),
+                          fit: BoxFit.contain,
+                        ),
+                      )),
+                  Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: Column(children: coinPriceRankingUI())),
+                ],
+              )
             ],
           ),
         )),
