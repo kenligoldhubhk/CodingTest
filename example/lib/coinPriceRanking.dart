@@ -44,7 +44,7 @@ class _CoinPriceRankingPageState extends State<CoinPriceRankingPage> {
     super.initState();
     getExchangeData();
     timer = Timer.periodic(Duration(seconds: 5), (timer) {
-      getExchangeData();
+        getExchangeData();
     });
   }
 
@@ -83,10 +83,61 @@ class _CoinPriceRankingPageState extends State<CoinPriceRankingPage> {
                         )),
                       ],
                     ),
-                    Text("Volume \$ " + coinPrice.totalVolume.toString())
+                    Text("Volume \$ " + coinPrice.totalVolume.toString()),
+
                   ],
                 )),
             //your code
+           Row(
+                children: [
+                  Text("\$"+coinPrice.currentPrice.toStringAsFixed(3),style:TextStyle(fontWeight: FontWeight.bold,fontSize:16)),
+                ],
+            ),
+            SizedBox(width:30),
+            FutureBuilder<CoinPriceList>(
+              future: getExchangeData(),
+              builder: (context, snapshot) {
+                 if(snapshot.hasData){
+                   if(snapshot.data.coinPriceList[i].athChangePercentage>0){
+                     return Row(
+                       children: [
+                         Container(
+                           height: 15,
+                           width: 20,
+                           child: Image(
+                             image: AssetImage('images/priceUpIcon.png'),
+                           ),
+                         ),
+                         Text(snapshot.data.coinPriceList[i].athChangePercentage.abs().toStringAsFixed(2) +"%"
+                           ,style: TextStyle(color:Colors.green),),
+                       ],
+                     );
+                   }else{
+                     return AnimatedOpacity(
+                       opacity: 1.0,
+                       duration: Duration(milliseconds: 500),
+                       child: Row(
+
+                         crossAxisAlignment: CrossAxisAlignment.center,
+                         children: [
+                           Container(
+                             height: 12,
+                             width: 12,
+                             child: Image(
+                               image: AssetImage('images/priceDownIcon.png'),
+                             ),
+                           ),
+                           SizedBox(width:2),
+                           Text(snapshot.data.coinPriceList[i].athChangePercentage.toStringAsFixed(2) +"%"
+                             ,style: TextStyle(color:Colors.red),),
+                         ],
+                       ),
+                     );
+                   }
+                }else return Center(child: CircularProgressIndicator());
+              }
+            )
+
           ]),
         );
         widgetList.add(Divider());
