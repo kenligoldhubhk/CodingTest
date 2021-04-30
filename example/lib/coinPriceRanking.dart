@@ -17,6 +17,7 @@ class _CoinPriceRankingPageState extends State<CoinPriceRankingPage> {
   CoinPriceList coinPriceList;
   Timer timer;
   bool visible = true;
+  int priceDifferent;
 
   Future<CoinPriceList> getExchangeData() async {
     /// getTopErc20CoinPrice
@@ -87,7 +88,55 @@ class _CoinPriceRankingPageState extends State<CoinPriceRankingPage> {
                   ],
                 )),
             //your code
-          ]),
+
+            Expanded(
+                flex: 5,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: <Widget>[
+                        Container(
+                          child: Text("\$ ${coinPrice.currentPrice.toStringAsFixed(3)}")
+                        ),
+                        (visible) ? Expanded(
+                          child:Padding(
+                              padding: EdgeInsets.only(left: 5),
+                              child:
+                              (coinPrice.priceChangePercentage24h > 0) ? Row(
+                                children: <Widget>[
+                                  Container(
+                                      height: 20,
+                                      width: 10,
+                                      child: Image(image: AssetImage('images/priceUpIcon.png'))
+                                  ),
+                                  Container(
+                                      child: Text("${coinPrice.priceChangePercentage24h.toStringAsFixed(2)}%",
+                                          style: TextStyle(color: Colors.green))
+                                  )
+                                ]
+                            ) :
+                            Row(
+                                children: <Widget>[
+                                  Container(
+                                      height: 20,
+                                      width: 10,
+                                      child: Image(image: AssetImage('images/priceDownIcon.png'))
+                                  ),
+                                  Container(
+                                      child: Text("${coinPrice.priceChangePercentage24h.toStringAsFixed(2)}%",
+                                          style: TextStyle(color: Colors.red))
+                                  )
+                                ]
+                            )
+                        )) : Expanded(
+                            flex: 5,
+                            child: Text("")),
+                      ],
+                    )
+                  ],
+                ))
+            ]),
         );
         widgetList.add(Divider());
       }
