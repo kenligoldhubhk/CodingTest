@@ -13,10 +13,11 @@ class CoinPriceRankingPage extends StatefulWidget {
   _CoinPriceRankingPageState createState() => _CoinPriceRankingPageState();
 }
 
-class _CoinPriceRankingPageState extends State<CoinPriceRankingPage> {
+class _CoinPriceRankingPageState extends State<CoinPriceRankingPage> with SingleTickerProviderStateMixin {
   CoinPriceList coinPriceList;
   Timer timer;
   bool visible = true;
+  AnimationController _animationController;
 
   Future<CoinPriceList> getExchangeData() async {
     /// getTopErc20CoinPrice
@@ -43,6 +44,8 @@ class _CoinPriceRankingPageState extends State<CoinPriceRankingPage> {
   void initState() {
     super.initState();
     getExchangeData();
+    _animationController = AnimationController(vsync: this, duration: Duration(seconds: 1));
+    _animationController.repeat(reverse: true);
     timer = Timer.periodic(Duration(seconds: 5), (timer) {
       getExchangeData();
     });
@@ -51,6 +54,7 @@ class _CoinPriceRankingPageState extends State<CoinPriceRankingPage> {
   @override
   void dispose() {
     timer.cancel();
+    _animationController?.dispose();
     super.dispose();
   }
 
@@ -86,6 +90,22 @@ class _CoinPriceRankingPageState extends State<CoinPriceRankingPage> {
                     Text("Volume \$ " + coinPrice.totalVolume.toString())
                   ],
                 )),
+            Text("\$ ${coinPrice.currentPrice}"),
+            FadeTransition(
+              opacity: _animationController,
+              child: Row(
+                  children: [
+                    coinPrice.priceChangePercentage24h >= 0 ?
+                      Icon(Icons.arrow_drop_up, color: Colors.green) :
+                      Icon(Icons.arrow_drop_down, color: Colors.red),
+                    Text("${coinPrice.priceChangePercentage24h}%",
+                        style: TextStyle(
+                            color: coinPrice.priceChangePercentage24h >= 0 ? Colors.green : Colors.red
+                        )),
+                  ],
+                ),
+            )
+
             //your code
           ]),
         );
