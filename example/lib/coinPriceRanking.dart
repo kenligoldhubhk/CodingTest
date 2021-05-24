@@ -62,7 +62,7 @@ class _CoinPriceRankingPageState extends State<CoinPriceRankingPage> {
         widgetList.add(
           Row(children: <Widget>[
             Expanded(
-                flex: 5,
+                flex: 4,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -87,6 +87,42 @@ class _CoinPriceRankingPageState extends State<CoinPriceRankingPage> {
                   ],
                 )),
             //your code
+            Expanded(
+              flex: 3,
+              child: Container(
+                margin: EdgeInsets.only(right: 5),
+                child: Text(
+                    "\$ " + coinPrice.currentPrice.toStringAsFixed(3),
+                    textAlign: TextAlign.right,
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 2,
+              child: Container(
+                margin: EdgeInsets.only(left: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container(
+                      width: 10,
+                      child:Image.asset(
+                        (coinPrice.priceChangePercentage24h > 0? 'images/priceUpIcon.png': 'images/priceDownIcon.png')
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 5),
+                      child: Text(
+                        coinPrice.priceChangePercentage24h.toStringAsFixed(2) + "%",
+                        style: TextStyle(
+                          color: (coinPrice.priceChangePercentage24h > 0? Colors.green : Colors.red),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ]),
         );
         widgetList.add(Divider());
