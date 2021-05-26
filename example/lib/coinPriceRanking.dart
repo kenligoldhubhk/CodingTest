@@ -87,7 +87,19 @@ class _CoinPriceRankingPageState extends State<CoinPriceRankingPage> {
                   ],
                 )),
             //your code
-          ]),
+              AnimatedOpacity(
+                duration: Duration(milliseconds: 1000),
+                child: RichText(text: TextSpan(
+                    children: [
+                      TextSpan(text: "\$ ${coinPrice.currentPrice.toStringAsFixed(2)}\t\t", style: TextStyle(color: Colors.black)),
+                      WidgetSpan(child: Image(image: (coinPrice.priceChangePercentage24h > 0) ? AssetImage("images/priceUpIcon.png") : AssetImage("images/priceDownIcon.png"),height: 10,)),
+                      TextSpan(text:" ${coinPrice.priceChangePercentage24h.toStringAsFixed(2)}%",style: TextStyle(color:  (coinPrice.priceChangePercentage24h > 0) ? Colors.green : Colors.red))]
+                ),
+                ),
+                opacity: 1.0,
+              ),
+                ],
+            ),
         );
         widgetList.add(Divider());
       }
