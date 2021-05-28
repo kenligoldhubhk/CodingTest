@@ -59,6 +59,8 @@ class _CoinPriceRankingPageState extends State<CoinPriceRankingPage> {
     if (coinPriceList?.coinPriceList != null) {
       for (var i = 0; i < coinPriceList.coinPriceList.length; i++) {
         CoinPrice coinPrice = coinPriceList.coinPriceList[i];
+        double percentage = coinPrice.priceChangePercentage24h;
+        String imgPath = percentage >= 0 ? "images/priceUpIcon.png" : "images/priceDownIcon.png";
         widgetList.add(
           Row(children: <Widget>[
             Expanded(
@@ -83,10 +85,34 @@ class _CoinPriceRankingPageState extends State<CoinPriceRankingPage> {
                         )),
                       ],
                     ),
-                    Text("Volume \$ " + coinPrice.totalVolume.toString())
+                    Text("Volume \$ " + coinPrice.totalVolume.toString()),
                   ],
                 )),
             //your code
+            Expanded(
+                flex: 5,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: <Widget>[
+                        Expanded(child:Padding(
+                          padding: EdgeInsets.only(left: 5),
+                          child: Text("\$" + coinPrice.currentPrice.toString(), style: FXUI.titleTextStyle),
+                        )),
+                        Container(
+                          height: 20,
+                          width: 20,
+                          child: Image.asset(imgPath)
+                        ),
+                        Expanded(child:Padding(
+                          padding: EdgeInsets.only(left: 5),
+                          child: Text(percentage.toStringAsFixed(2) + "%"),
+                        )),
+                      ],
+                    ),
+                  ],
+                )),
           ]),
         );
         widgetList.add(Divider());
