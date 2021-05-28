@@ -59,6 +59,16 @@ class _CoinPriceRankingPageState extends State<CoinPriceRankingPage> {
     if (coinPriceList?.coinPriceList != null) {
       for (var i = 0; i < coinPriceList.coinPriceList.length; i++) {
         CoinPrice coinPrice = coinPriceList.coinPriceList[i];
+        AssetImage changePercentageImage;
+        Color changePercentageColor;
+        if (coinPrice.priceChangePercentage24h < 0) {
+          changePercentageImage = AssetImage('images/priceDownIcon.png');
+          changePercentageColor = Colors.red;
+        } else {
+          changePercentageImage = AssetImage('images/priceUpIcon.png');
+          changePercentageColor = Colors.green;
+        }
+
         widgetList.add(
           Row(children: <Widget>[
             Expanded(
@@ -87,6 +97,31 @@ class _CoinPriceRankingPageState extends State<CoinPriceRankingPage> {
                   ],
                 )),
             //your code
+            Text("\$ " + coinPrice.currentPrice.toStringAsFixed(3)),
+            Expanded(
+                flex: 5,
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      height: 40,
+                      width: 20,
+                      child: Image(
+                        image: changePercentageImage,
+                        height: 100,
+                        width: 100,
+                      ),
+                    ),
+                    Expanded(child:Padding(
+                      padding: EdgeInsets.only(left: 5),
+                      child: Text(
+                          coinPrice.priceChange24h.abs().toStringAsFixed(2),
+                              style: TextStyle(
+                          color: changePercentageColor,
+                      ),
+                      ),
+                    )),
+                  ],
+                )),
           ]),
         );
         widgetList.add(Divider());
