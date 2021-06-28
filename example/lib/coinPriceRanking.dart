@@ -44,6 +44,7 @@ class _CoinPriceRankingPageState extends State<CoinPriceRankingPage> {
     super.initState();
     getExchangeData();
     timer = Timer.periodic(Duration(seconds: 5), (timer) {
+      print("refresh");
       getExchangeData();
     });
   }
@@ -60,7 +61,9 @@ class _CoinPriceRankingPageState extends State<CoinPriceRankingPage> {
       for (var i = 0; i < coinPriceList.coinPriceList.length; i++) {
         CoinPrice coinPrice = coinPriceList.coinPriceList[i];
         widgetList.add(
-          Row(children: <Widget>[
+          Row(
+
+              children: <Widget>[
             Expanded(
                 flex: 5,
                 child: Column(
@@ -87,7 +90,20 @@ class _CoinPriceRankingPageState extends State<CoinPriceRankingPage> {
                   ],
                 )),
             //your code
-          ]),
+              Text("\$ ${double. parse((coinPrice.currentPrice).toStringAsFixed(3))}"),
+              Row(children: [Padding(
+                padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
+                child: Container(
+                    width: 20,
+                    height: 20,
+                    child: Image.asset(coinPrice.priceChangePercentage24h>0?'assets/images/priceUpIcon.png':'assets/images/priceDownIcon.png')),
+              ),
+                Container(
+                  width: 50,
+                    child: Text("${double. parse((coinPrice.priceChangePercentage24h).toStringAsFixed(2))}%")),
+              ],)
+
+              ]),
         );
         widgetList.add(Divider());
       }
