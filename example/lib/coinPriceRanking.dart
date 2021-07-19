@@ -36,6 +36,7 @@ class _CoinPriceRankingPageState extends State<CoinPriceRankingPage> {
         });
       });
     }
+    print("coinpricelist123 $coinPriceList");
     return coinPriceList;
   }
 
@@ -44,7 +45,9 @@ class _CoinPriceRankingPageState extends State<CoinPriceRankingPage> {
     super.initState();
     getExchangeData();
     timer = Timer.periodic(Duration(seconds: 5), (timer) {
+
       getExchangeData();
+      print("coinpricelist $coinPriceList");
     });
   }
 
@@ -87,6 +90,29 @@ class _CoinPriceRankingPageState extends State<CoinPriceRankingPage> {
                   ],
                 )),
             //your code
+            Container(
+              alignment: Alignment.centerRight,
+              child: Text("\$ "+ "${coinPrice.currentPrice}"),
+            ),
+            SizedBox(width: 16.0),
+            AnimatedOpacity(
+                opacity: visible ? 1 : 0,
+                duration: Duration(milliseconds: 500),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 10,
+                      child: coinPrice.priceChangePercentage24h > 0
+                          ? Image.asset('images/priceUpIcon.png')
+                          : Image.asset('images/priceDownIcon.png'),
+                    ),
+                    SizedBox(width: 4),
+                    Text("${coinPrice.priceChangePercentage24h.abs().toStringAsFixed(2)}%", style: TextStyle(color: coinPrice.priceChangePercentage24h > 0 ? Colors.greenAccent[400]: Colors.redAccent)),
+                  ],
+                )
+            ),
+
           ]),
         );
         widgetList.add(Divider());
